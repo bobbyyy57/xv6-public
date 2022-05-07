@@ -29,3 +29,6 @@ SYSCALL(getpid)
 SYSCALL(sbrk)
 SYSCALL(sleep)
 SYSCALL(uptime)
+SYSCALL(exitStatus) // added 1
+SYSCALL(waitpid) // added 1
+SYSCALL(prioritySet) // added 2

@@ -20,10 +20,47 @@ sys_exit(void)
   return 0;  // not reached
 }
 
-int
-sys_wait(void)
+int                     // added -- based on the sys_kill function 
+sys_exitStatus(void)
 {
-  return wait();
+  int status;
+
+  if(argint(0, &status) < 0) // pointer to an integer 
+    return -1;
+  return exitStatus(status);
+}
+
+
+int
+sys_wait(void)  // modified
+{
+  int *status;
+  // argptr(index of argument, passing a pointer, size of pointer) 
+  if (argptr(0, (void*) &status, sizeof(status)) < 0) {
+    return -1;
+  }
+  return wait(status);
+}
+
+int sys_waitpid(void) {
+  int pid;
+  int *status;
+  int options = 0;
+
+  // terminating process from kill 
+  // passing in an integer 
+  if (argint(0, &pid) < 0) {
+    return -1;
+  }
+
+  // checking value to return -1
+  // passing in a pointer
+  if (argptr(1, (void*)&status, sizeof(status)) < 0) {
+    return -1; 
+  }
+
+  return waitpid(pid, status, options);
+
 }
 
 int
